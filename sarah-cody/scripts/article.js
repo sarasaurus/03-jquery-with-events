@@ -13,7 +13,7 @@ function Article (rawDataObj) {
 
 Article.prototype.toHtml = function() {
   let $newArticle = $('article.template').clone();
-  $newArticle.removeClass('template').addClass('article');
+  $newArticle.removeClass('template');
   if (!this.publishedOn) {
     $newArticle.addClass('draft');
   }

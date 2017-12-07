@@ -24,7 +24,7 @@ articleView.populateFilters = function() {
       // Avoid duplicates! We don't want to append the category name if the <select> already has this category as an option!
       category = $(this).attr('data-category');
 
-      //DONE
+    
       optionTag = `<option value="${category}">${category}</option>`;
 
       if ($('#category-filter option[value="' + category + '"]').length === 0) {
@@ -36,34 +36,45 @@ articleView.populateFilters = function() {
 
 articleView.handleAuthorFilter = function() {
   $('#author-filter').on('change', function() {
-    // REVIEW: Inside this function, "this" is the element that triggered the event handler function we are defining. "$(this)" is using jQuery to select that element (analogous to event.target that we have seen before), so we can chain jQuery methods onto it.
+    
     if ($(this).val()) {
-      $('.article').hide();
+      $('article').hide();
       console.log('this', $(this).val());
-      $(`.article[data-author=${$(this).val()}]`).show();
+      $(`article[data-author="${$(this).val()}"]`).show();
     } else {
-      // TODO: If the <select> menu was changed to an option that is blank, we should first show all the articles, except the one article we are using as a template.
-      $('.article').show();
-      $('.template').hide();
+    
+      $('article').show();
+      $('article.template').hide();
     }
     $('#category-filter').val('');
   });
 };
 
 articleView.handleCategoryFilter = function() {
-  // TODO: Just like we do for #author-filter above, we should handle change events on the #category-filter element.
-  // When an option with a value is selected, hide all the articles, then reveal the matches.
-  // When the blank (default) option is selected, show all the articles, except for the template.
-  // Be sure to reset the #author-filter while you are at it!
+  $('#category-filter').on('change', function () {
+
+    if ($(this).val()) {
+      $('article').hide();
+      console.log('this', $(this).val());
+      $(`article[data-category="${$(this).val()}"]`).show();
+    } else {
+
+      $('article').show();
+      $('article.template').hide();
+    }
+    $('#author-filter').val('');
+  });
+
 
 };
 
 articleView.handleMainNav = function() {
-  // TODO: Add an event handler to .main-nav elements that will power the Tabs feature.
-  // Clicking any .tab element should hide all the .tab-content sections, and then reveal the single .tab-content section that is associated with the clicked .tab element.
-  // So: You need to dynamically build a selector string with the correct ID, based on the data available to you on the .tab element that was clicked.
 
-  // REVIEW: Now trigger a click on the first .tab element, to set up the page.
+  $('.tab').on('click', function () {
+    console.log('this', $(this).data('content'));
+    $('.tab-content').hide();
+    $(`#${$(this).data('content')}`).show();
+  });
   $('.main-nav .tab:first').click();
 };
 
@@ -79,5 +90,7 @@ articleView.setTeasers = function() {
 $(document).ready(function() {
   articleView.populateFilters();
   articleView.handleAuthorFilter();
+  articleView.handleCategoryFilter();
+  articleView.handleMainNav();
 
 })
