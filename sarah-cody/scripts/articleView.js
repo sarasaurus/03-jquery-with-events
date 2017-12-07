@@ -37,12 +37,13 @@ articleView.populateFilters = function() {
 articleView.handleAuthorFilter = function() {
   $('#author-filter').on('change', function() {
     // REVIEW: Inside this function, "this" is the element that triggered the event handler function we are defining. "$(this)" is using jQuery to select that element (analogous to event.target that we have seen before), so we can chain jQuery methods onto it.
+    $('.article').hide();
     if ($(this).val()) {
-      $('.article').hide();
-
+      console.log('this', this);
     } else {
       // TODO: If the <select> menu was changed to an option that is blank, we should first show all the articles, except the one article we are using as a template.
-
+      $('.article').show();
+      $('.template').hide();
     }
     $('#category-filter').val('');
   });
@@ -76,5 +77,6 @@ articleView.setTeasers = function() {
 // TODO: Call all of the above functions, once we are sure the DOM is ready.
 $(document).ready(function() {
   articleView.populateFilters();
+  articleView.handleAuthorFilter();
 
 })
